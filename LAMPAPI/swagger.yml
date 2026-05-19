@@ -1,0 +1,140 @@
+swagger: '2.0'
+
+# Metadata
+info:
+  description: 'Group 10 Project - Contanct Manager - API Documentation'
+  version: '0.0.1'
+  title: 'Contact Manager'
+  contact:
+    email:
+      - 'mi993440@ucf.edu'
+  license:
+    name: 'Apache 2.0'
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+# Docs
+paths:
+  /Login.php:
+    post:
+      tags:
+      - Users
+      summary: 'Log in page for users'
+      operationId: loginPage
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: loginItem
+        description: 'Login'
+        schema:
+          $ref: '#/definitions/Login'
+      responses:
+        200:
+          description: 'OK'
+        404:
+          description: 'URL Not Found'
+        500:
+          description: 'Server Error'
+
+  #--- Template .php files for Color example---
+  /AddColor.php:
+    post:
+      tags:
+      - Colors
+      summary: Adds a color
+      operationId: addColor
+      description: Adds a color to the color app database
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: colorItem
+        description: Color
+        schema:
+          $ref: '#/definitions/Color'
+      responses:
+        200:
+          description: OK
+        404:
+          description: URL Not Found
+        500:
+          description: Server Error
+  /SearchColors.php:
+    post:
+      tags:
+      - Search
+      summary: Searches colors
+      operationId: searchColor
+      description: Searches colors from the color app database
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: searchItem
+        description: Color Search
+        schema:
+        $ref: '#/definitions/Search'
+      responses:
+        200:
+          description: OK
+        404:
+          description: URL Not Found
+        500:
+          description: Server Error
+  #--- End of Template .php files ---
+
+definitions:
+  Login:
+    type: object
+    required:
+    - login
+    - password
+    properties:
+      login:
+        type: string
+        example: 'UserName123'
+      password:
+        type: string
+        example: 'Password123'
+
+  #--- Template definitions for Color example ---
+  Color:
+    type: object
+    required:
+    - userId
+    - color
+    properties:
+      userId:
+        type: integer
+        example: 1
+      color:
+        type: string
+        example: "Blue Green"
+  
+  Search:
+    type: object
+    required:
+    - userId
+    - search
+    properties:
+      userId:
+        type: integer
+        example: 1
+      search:
+        type: string
+        example: "bl"
+
+  #--- End of template definitions ---
+
+host: COP4331-5.com
+basePATH: /LAMPAPI
+schemes:
+- http
+
+
