@@ -12,16 +12,21 @@
 	} 
 	else
 	{
-
-		# Search for like terms in all field—first and last name, email, and phone.
-		$stmt = $conn->prepare("select Name from Contacts where FirstName like :searchQuery or LastName like :searchQuery or Phone like :searchQuery or Email like :searchQuery AND UserID = :userID" );
-		$searchQuery = "%" . $inData["search"] . "%";
+		
+		# Search for LIKE terms in all field—first and last name, email, and phone.
+		$sql = "SELECT FirstName FROM Contacts WHERE (FirstName LIKE ? 
+						  	OR LastName LIKE ? 
+							OR Phone LIKE ? 
+							OR Email LIKE ?) 
+							AND UserID = ?";
+		$stmt = $conn->prepare($sql);
+		
+		# Insert search and userid into query statement and execute
+		$searchQuery = "%" . $inData["search"] . "%";		
 		$userID = $indata["userID"];
-		#$stmt->bind_param("ss", $searchQuery);
-		$stmt->execute([':searchQuery'=>$searchQuery, ':userID'=$userID]);
-		
+		$stmt->execute([$searchQuery, $searchQuery, $searchQuery, $searchQuery, $userID]);
 		$result = $stmt->get_result();
-		
+
 		while($row = $result->fetch_assoc())
 		{
 			if( $searchCount > 0 )
