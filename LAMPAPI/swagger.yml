@@ -1,10 +1,10 @@
-swagger: '2.0'
+swagger: "2.0"
 
 # Metadata
 info:
-  description: 'Group 10 Project - Contanct Manager - API Documentation'
+  description: 'Group 10 Project - AECM - API Documentation'
   version: '0.0.1'
-  title: 'Contact Manager'
+  title: 'AECM'
   contact:
     email:
       - 'mi993440@ucf.edu'
@@ -18,7 +18,8 @@ paths:
     post:
       tags:
       - Users
-      summary: 'Log in page for users'
+      summary: Log in page for users
+      description: Authenticates users
       operationId: loginPage
       consumes:
       - application/json
@@ -27,35 +28,9 @@ paths:
       parameters:
       - in: body
         name: loginItem
-        description: 'Login'
+        description: Login
         schema:
           $ref: '#/definitions/Login'
-      responses:
-        200:
-          description: 'OK'
-        404:
-          description: 'URL Not Found'
-        500:
-          description: 'Server Error'
-
-  #--- Template .php files for Color example---
-  /AddColor.php:
-    post:
-      tags:
-      - Colors
-      summary: Adds a color
-      operationId: addColor
-      description: Adds a color to the color app database
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - in: body
-        name: colorItem
-        description: Color
-        schema:
-          $ref: '#/definitions/Color'
       responses:
         200:
           description: OK
@@ -63,13 +38,39 @@ paths:
           description: URL Not Found
         500:
           description: Server Error
-  /SearchColors.php:
+
+  /AddContacts.php:
     post:
       tags:
-      - Search
-      summary: Searches colors
-      operationId: searchColor
-      description: Searches colors from the color app database
+      - Add Contacts
+      summary: Add contacts
+      operationId: contactAdd
+      description: Adds contacts to contacts database
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: addItem
+        description: Add contact
+        schema:
+          $ref: '#/definitions/Add'
+      responses:
+        200:
+          description: OK
+        404:
+          description: URL Not Found
+        500:
+          descirption: Server Error
+
+  /SearchContacts.php:
+    post:
+      tags:
+      - Search Contacts
+      summary: Searches for contacts
+      operationId: contactSearch
+      description: Searches contacts from contacts database
       consumes:
       - application/json
       produces:
@@ -77,9 +78,9 @@ paths:
       parameters:
       - in: body
         name: searchItem
-        description: Color Search
+        description: Contact Search
         schema:
-        $ref: '#/definitions/Search'
+          $ref: '#/definitions/Search'
       responses:
         200:
           description: OK
@@ -87,6 +88,56 @@ paths:
           description: URL Not Found
         500:
           description: Server Error
+
+  #--- Template .php files for Color example---
+  # /AddColor.php:
+  #   post:
+  #     tags:
+  #     - Colors
+  #     summary: Adds a color
+  #     operationId: addColor
+  #     description: Adds a color to the color app database
+  #     consumes:
+  #     - application/json
+  #     produces:
+  #     - application/json
+  #     parameters:
+  #     - in: body
+  #       name: colorItem
+  #       description: Color
+  #       schema:
+  #         $ref: '#/definitions/Color'
+  #     responses:
+  #       200:
+  #         description: OK
+  #       404:
+  #         description: URL Not Found
+  #       500:
+  #         description: Server Error
+  # /SearchColors.php:
+  #   post:
+  #     tags:
+  #     - Search
+  #     summary: Searches colors
+  #     operationId: searchColor
+  #     description: Searches colors from the color app database
+  #     consumes:
+  #     - application/json
+  #     produces:
+  #     - application/json
+  #     parameters:
+  #     - in: body
+  #       name: searchItem
+  #       description: Color Search
+  #       schema:
+  #         $ref: '#/definitions/Search'
+  #     responses:
+  #       200:
+  #         description: OK
+  #       404:
+  #         description: URL Not Found
+  #       500:
+  #         description: Server Error
   #--- End of Template .php files ---
 
 definitions:
@@ -98,25 +149,36 @@ definitions:
     properties:
       login:
         type: string
-        example: 'UserName123'
+        example: UserName123
       password:
         type: string
-        example: 'Password123'
+        example: Password123
 
-  #--- Template definitions for Color example ---
-  Color:
+  Add:
     type: object
     required:
     - userId
-    - color
+    - firstName
+    - lastName
+    - phone
+    - email
     properties:
-      userId:
+      userID:
         type: integer
-        example: 1
-      color:
+        example: 123
+      firstName:
         type: string
-        example: "Blue Green"
-  
+        example: John
+      lastName:
+        type: string
+        example: Doe
+      phone:
+        type: string
+        example: 1234567890
+      email:
+        type: string
+        example: jdoe@email.com
+
   Search:
     type: object
     required:
@@ -125,16 +187,51 @@ definitions:
     properties:
       userId:
         type: integer
-        example: 1
+        example: 123
       search:
         type: string
-        example: "bl"
+        example: John Doe
+
+
+  #--- Template definitions for Color example ---
+  # Color:
+  #   type: object
+  #   required:
+  #   - userId
+  #   - color
+  #   properties:
+  #     userId:
+  #       type: integer
+  #       example: 1
+  #     color:
+  #       type: string
+  #       example: "Blue Green"
+  
+  # Search:
+  #   type: object
+  #   required:
+  #   - userId
+  #   - search
+  #   properties:
+  #     userId:
+  #       type: integer
+  #       example: 1
+  #     search:
+  #       type: string
+  #       example: "bl"
 
   #--- End of template definitions ---
 
-host: COP4331-5.com
+# host: aecm.site
 basePATH: /LAMPAPI
+# schemes:
+# - http
+# Added by API Auto Mocking Plugin
+#host: virtserver.swaggerhub.com
+#basePath: /g10-4c5/AECM/0.0.1
 schemes:
-- http
-
-
+ - https
+ - http
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /g10-4c5/AECM/0.0.1
