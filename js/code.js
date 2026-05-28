@@ -183,3 +183,17 @@ function searchColor()
 	}
 	
 }
+
+function showLogin(){
+	document.getElementById("registerDiv").style.display="none";
+	document.getElementById("loginDiv").style.display="black";
+}
+
+function showRegister(){
+	document.getElementById("loginDiv").style.display="none";
+	document.getElementById("registerDiv").style.display="black";
+}
+
+function doRegister(){
+	document.getElementById("registerResult").innerHTML= "Register API still needs to be connected.";
+}
