@@ -14,7 +14,7 @@
 
     <div class="container">
 
-        <div class="login-card">
+        <div class="login-card" id="loginDiv">
 
             <h1 id="title">Contact Manager</h1>
 
@@ -45,11 +45,26 @@
 
             <div class="register-text">
                 Don’t have an account?
-                <a href="#">Register</a>
+                <a onclick="showRegister();">Register</a>
             </div>
 
         </div>
 
+        </div id="RegisterDiv" class="login-card" style="display: none;">
+            <h1 id="title">Create Account</h1>
+            <p class="subtitle">Register to manage your contacts</p>
+            <input type="text" id="firstName" placeholder="First Name" />
+            <input type="text" id="lastName" placeholder="Last Name" />
+            <input type="text" id="registerName" placeholder="Username" />
+            <input type="password" id="RegisterPassword" placeholder="Password" />
+            <input type="password" id="ConfirmPassword" placeholder="Confirm Password" />
+            <button type="button" id="registerButton" class="buttons" onclick="doRegister();">Register</button>
+            <span id="registerResult"></span>
+            <div class="register-text">
+                Already have an account?
+                <a onclick="showLogin();">Login</a>
+            </div>
+        </div>
     </div>
 
 </body>
