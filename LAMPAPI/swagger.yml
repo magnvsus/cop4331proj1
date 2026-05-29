@@ -20,26 +20,32 @@ paths:
       - Users
       summary: Log in page for users
       description: Authenticates users
-      operationId: loginPage
+      operationId: LoginPage
       consumes:
       - application/json
       produces:
       - application/json
       parameters:
       - in: body
-        name: loginItem
+        name: LoginItem
         description: Login
         schema:
           $ref: '#/definitions/Login'
       responses:
         200:
           description: OK
+          schema:
+            $ref: '#/definitions/LoginResponse'
         404:
           description: URL Not Found
+          schema:
+            $ref: '#/definitions/NotFoundErrorResponse'
         500:
           description: Server Error
-
-  /AddContacts.php:
+          schema:
+            $ref: '#/definitions/ServerErrorResponse'
+  
+  /AddContact.php:
     post:
       tags:
       - Add Contacts
@@ -59,12 +65,18 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+            $ref: '#/definitions/GenericResponse'
         404:
           description: URL Not Found
+          schema:
+            $ref: '#/definitions/NotFoundErrorResponse'
         500:
-          descirption: Server Error
+          description: Server Error
+          schema:
+            $ref: '#/definitions/ServerErrorResponse'
 
-  /SearchContacts.php:
+  /SearchContact.php:
     post:
       tags:
       - Search Contacts
@@ -77,161 +89,251 @@ paths:
       - application/json
       parameters:
       - in: body
-        name: searchItem
+        name: SearchItem
         description: Contact Search
         schema:
           $ref: '#/definitions/Search'
       responses:
         200:
           description: OK
+          schema:
+            $ref: '#/definitions/SearchResponse'
         404:
           description: URL Not Found
+          schema:
+            $ref: '#/definitions/NotFoundErrorResponse'
         500:
           description: Server Error
+          schema:
+            $ref: '#/definitions/ServerErrorResponse'
 
-  #--- Template .php files for Color example---
-  # /AddColor.php:
-  #   post:
-  #     tags:
-  #     - Colors
-  #     summary: Adds a color
-  #     operationId: addColor
-  #     description: Adds a color to the color app database
-  #     consumes:
-  #     - application/json
-  #     produces:
-  #     - application/json
-  #     parameters:
-  #     - in: body
-  #       name: colorItem
-  #       description: Color
-  #       schema:
-  #         $ref: '#/definitions/Color'
-  #     responses:
-  #       200:
-  #         description: OK
-  #       404:
-  #         description: URL Not Found
-  #       500:
-  #         description: Server Error
-  # /SearchColors.php:
-  #   post:
-  #     tags:
-  #     - Search
-  #     summary: Searches colors
-  #     operationId: searchColor
-  #     description: Searches colors from the color app database
-  #     consumes:
-  #     - application/json
-  #     produces:
-  #     - application/json
-  #     parameters:
-  #     - in: body
-  #       name: searchItem
-  #       description: Color Search
-  #       schema:
-  #         $ref: '#/definitions/Search'
-  #     responses:
-  #       200:
-  #         description: OK
-  #       404:
-  #         description: URL Not Found
-  #       500:
-  #         description: Server Error
-  #--- End of Template .php files ---
+  /DeleteContact.php:
+    post:
+      tags:
+      - Delete Contacts
+      summary: Deletes contacts 
+      operationId: contactDelete
+      description: Deletes contacts from contacts database
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: deleteItem
+        description: Contact Deletion
+        schema:
+          $ref: '#/definitions/Delete'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/GenericResponse'
+        404:
+          description: URL Not Found
+          schema:
+            $ref: '#/definitions/NotFoundErrorResponse'
+        500:
+          description: Server Error
+          schema:
+            $ref: '#/definitions/ServerErrorResponse'
+
+  /UpdateContact.php:
+    post:
+      tags:
+      - Update Contacts
+      summary: Updates contacts
+      operationId: contactUpdate
+      description: Updates contact information in database
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: updateItem
+        description: Contact Update
+        schema:
+          $ref: '#/definitions/Update'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/GenericResponse'
+        404:
+          description: URL Not Found
+          schema:
+            $ref: '#/definitions/NotFoundErrorResponse'
+        500:
+          description: Server Error
+          schema:
+            $ref: '#/definitions/ServerErrorResponse'
+
 
 definitions:
+  Contact:
+    type: object
+    properties:
+      ContactID:
+        type: integer
+        example: 123
+      FirstName:
+        type: string
+        example: John
+      LastName:
+        type: string
+        example: Doe
+      Phone:
+        type: string
+        example: 123-456-7890
+      Email:
+        type: string
+        example: jdoe@email.com
+
   Login:
     type: object
     required:
-    - login
-    - password
+    - Login
+    - Password
     properties:
-      login:
+      Login:
         type: string
         example: UserName123
-      password:
+      Password:
         type: string
         example: Password123
 
   Add:
     type: object
     required:
-    - userId
-    - firstName
-    - lastName
-    - phone
-    - email
+    - UserID
+    - FirstName
+    - LastName
+    - Phone
+    - Email
     properties:
-      userID:
+      UserID:
         type: integer
         example: 123
-      firstName:
+      FirstName:
         type: string
         example: John
-      lastName:
+      LastName:
         type: string
         example: Doe
-      phone:
+      Phone:
         type: string
         example: 1234567890
-      email:
+      Email:
         type: string
-        example: jdoe@email.com
+        example: jdoe@Email.com
 
   Search:
     type: object
     required:
-    - userId
-    - search
+    - UserID
+    - Search
     properties:
-      userId:
+      UserID:
         type: integer
         example: 123
-      search:
+      Search:
         type: string
         example: John Doe
 
-
-  #--- Template definitions for Color example ---
-  # Color:
-  #   type: object
-  #   required:
-  #   - userId
-  #   - color
-  #   properties:
-  #     userId:
-  #       type: integer
-  #       example: 1
-  #     color:
-  #       type: string
-  #       example: "Blue Green"
   
-  # Search:
-  #   type: object
-  #   required:
-  #   - userId
-  #   - search
-  #   properties:
-  #     userId:
-  #       type: integer
-  #       example: 1
-  #     search:
-  #       type: string
-  #       example: "bl"
+        
+  Delete:
+    type: object
+    required:
+    - UserID
+    - ContactID
+    properties:
+      UserID:
+        type: integer
+        example: 123
+      ContactID:
+        type: integer
+        example: 123
 
-  #--- End of template definitions ---
+  Update:
+    type: object
+    required:
+    - UserID
+    - ContactID
+    - FirstName
+    - LastName
+    - Phone
+    - Email
+    properties:
+      UserID:
+        type: integer
+        example: 123
+      ContactID:
+        type: integer
+        example: 123
+      FirstName:
+        type: string
+        example: John
+      LastName:
+        type: string
+        example: Doe
+      Phone:
+        type: string
+        example: 123-456-7890
+      Email:
+        type: string
+        example: jdoe@email.com
 
-# host: aecm.site
+  #Responses:
+
+  LoginResponse:
+    type: object
+    properties:
+      UserID:
+        type: integer
+        example: 123
+      FirstName:
+        type: string
+        example: John
+      LastName:
+        type: string
+        example: Doe
+      Error:
+        type: string
+        example: ""
+
+  SearchResponse:
+    type: object
+    properties:
+      Results:
+        type: array
+        items:
+          $ref: '#/definitions/Contact'
+      Error:
+        type: string
+        example: ""
+
+  GenericResponse:
+    type: object
+    properties:
+      Error:
+        type: string
+        example: ""
+
+  ServerErrorResponse:
+    type: object
+    properties:
+      Error:
+        type: string
+        example: "Internal server error"
+
+  NotFoundErrorResponse:
+    type: object
+    properties:
+      Error:
+        type: string
+        example: "URL Not Found"
+
+host: aecm.site
 basePATH: /LAMPAPI
-# schemes:
-# - http
-# Added by API Auto Mocking Plugin
-#host: virtserver.swaggerhub.com
-#basePath: /g10-4c5/AECM/0.0.1
 schemes:
  - https
  - http
-# Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-basePath: /g10-4c5/AECM/0.0.1
+

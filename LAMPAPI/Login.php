@@ -1,9 +1,8 @@
-
 <?php
 
 	$inData = getRequestInfo();
 	
-	$id = 0;
+	$userID = 0;
 	$firstName = "";
 	$lastName = "";
 
@@ -14,18 +13,18 @@
 	}
 	else
 	{
-		$stmt = $conn->prepare("SELECT ID,firstName,lastName FROM Users WHERE Login=? AND Password =?");
-		$stmt->bind_param("ss", $inData["login"], $inData["password"]);
+		$stmt = $conn->prepare("SELECT UserID, FirstName, LastName FROM Users WHERE Login=? AND Password =?");
+		$stmt->bind_param("ss", $inData["Login"], $inData["Password"]);
 		$stmt->execute();
 		$result = $stmt->get_result();
 
 		if( $row = $result->fetch_assoc()  )
 		{
-			returnWithInfo( $row['firstName'], $row['lastName'], $row['ID'] );
+			returnWithInfo( $row['FirstName'], $row['LastName'], $row['UserID'] );
 		}
 		else
 		{
-			returnWithError("No Records Found");
+			returnWithError("Invalid Credentials");
 		}
 
 		$stmt->close();
@@ -45,13 +44,13 @@
 	
 	function returnWithError( $err )
 	{
-		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+		$retValue = '{"UserID":0,"FirstName":"","LastName":"","Error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
 	
-	function returnWithInfo( $firstName, $lastName, $id )
+	function returnWithInfo( $firstName, $lastName, $userID )
 	{
-		$retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
+		$retValue = '{"UserID":' . $userID . ',"FirstName":"' . $firstName . '","LastName":"' . $lastName . '","Error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
 	

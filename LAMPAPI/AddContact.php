@@ -1,30 +1,30 @@
 <?php
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+    ini_set('display_Errors', 1);
+    ini_set('display_startup_Errors', 1);
+    Error_reporting(E_ALL);
 
     // 1. Read the JSON from Postman
     $inData = getRequestInfo();
 
-    // 2. Extract the data into distinct variables to prevent null errors
-    $userId = $inData["userId"];
-    $firstName = $inData["firstName"];
-    $lastName = $inData["lastName"];
-    $phone = $inData["phone"];
-    $email = $inData["email"];
+    // 2. Extract the data into distinct variables to prevent null Errors
+    $userID = $inData["UserID"];
+    $firstName = $inData["FirstName"];
+    $lastName = $inData["LastName"];
+    $phone = $inData["Phone"];
+    $email = $inData["Email"];
 
     // 3. Connect to Michael's database
     $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 
-    if ($conn->connect_error) 
+    if ($conn->connect_Error) 
     {
-        returnWithError( $conn->connect_error );
+        returnWithError( $conn->connect_Error );
     } 
     else 
     {
         // 4. Insert into the Contacts table
         $stmt = $conn->prepare("INSERT into Contacts (UserID, FirstName, LastName, Phone, Email) VALUES(?, ?, ?, ?, ?)");
-        $stmt->bind_param("issss", $userId, $firstName, $lastName, $phone, $email);
+        $stmt->bind_param("issss", $userID, $firstName, $lastName, $phone, $email);
         $stmt->execute();
         
         $stmt->close();
@@ -46,7 +46,7 @@
     
     function returnWithError( $err )
     {
-        $retValue = '{"error":"' . $err . '"}';
+        $retValue = '{"Error":"' . $err . '"}';
         sendResultInfoAsJson( $retValue );
     }
 ?>

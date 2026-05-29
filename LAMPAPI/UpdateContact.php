@@ -1,24 +1,24 @@
 <?php
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+    ini_set('display_Errors', 1);
+    ini_set('display_startup_Errors', 1);
+    Error_reporting(E_ALL);
 
     // Decode the JSON payload from the frontend
     $inData = getRequestInfo();
 
     // Store all 6 pieces of data into PHP variables
-    $firstName = $inData["firstName"];
-    $lastName = $inData["lastName"];
-    $phone = $inData["phone"];
-    $email = $inData["email"];
-    $userId = $inData["userId"];
-    $contactId = $inData["contactId"];
+    $firstName = $inData["FirstName"];
+    $lastName = $inData["LastName"];
+    $phone = $inData["Phone"];
+    $email = $inData["Email"];
+    $userID = $inData["UserID"];
+    $contactID = $inData["ContactID"];
 
     // Open the database vault
     $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-    if ($conn->connect_error) 
+    if ($conn->connect_Error) 
     {
-        returnWithError( $conn->connect_error );
+        returnWithError( $conn->connect_Error );
     } 
     else
     {
@@ -31,7 +31,7 @@
         // "ssssii" tells MySQL the exact data types we are sending. 
         // s = String (First, Last, Phone, Email)
         // i = Integer (ContactID, UserID)
-        $stmt->bind_param("ssssii", $firstName, $lastName, $phone, $email, $contactId, $userId);
+        $stmt->bind_param("ssssii", $firstName, $lastName, $phone, $email, $contactID, $userID);
         
         // Execute the update
         $stmt->execute();
@@ -57,7 +57,7 @@
     
     function returnWithError( $err )
     {
-        $retValue = '{"error":"' . $err . '"}';
+        $retValue = '{"Error":"' . $err . '"}';
         sendResultInfoAsJson( $retValue );
     }
 ?>

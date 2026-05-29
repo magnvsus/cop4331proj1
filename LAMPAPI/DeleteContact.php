@@ -1,17 +1,17 @@
 <?php
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+    ini_set('display_Errors', 1);
+    ini_set('display_startup_Errors', 1);
+    Error_reporting(E_ALL);
 
     $inData = getRequestInfo();
 
-    $contactId = $inData["contactId"];
-    $userId = $inData["userId"];
+    $contactID = $inData["contactID"];
+    $userID = $inData["UserID"];
 
     $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-    if ($conn->connect_error) 
+    if ($conn->connect_Error) 
     {
-        returnWithError( $conn->connect_error );
+        returnWithError( $conn->connect_Error );
     } 
     else
     {
@@ -19,7 +19,7 @@
         $stmt = $conn->prepare("DELETE FROM Contacts WHERE ContactID = ? AND UserID = ?");
         
         // Bind the variables
-        $stmt->bind_param("ii", $contactId, $userId);
+        $stmt->bind_param("ii", $contactID, $userID);
         
         // Execute the hit
         $stmt->execute();
@@ -45,7 +45,7 @@
     
     function returnWithError( $err )
     {
-        $retValue = '{"error":"' . $err . '"}';
+        $retValue = '{"Error":"' . $err . '"}';
         sendResultInfoAsJson( $retValue );
     }
 ?>
