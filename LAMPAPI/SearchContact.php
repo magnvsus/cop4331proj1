@@ -13,6 +13,7 @@
 
     // 1. Check for empty search
     if(empty(trim($Search))){
+        http_response_code(400);
         returnWithError("Search term cannot be empty.");
         exit;
     }
@@ -20,6 +21,7 @@
     $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
     if ($conn->connect_Error) 
     {
+        http_response_code(500);
         returnWithError( $conn->connect_Error );
     } 
     else
@@ -62,6 +64,7 @@
         
         if( $searchCount == 0 )
         {
+            http_response_code(404);
             returnWithError( "No Records Found" );
         }
         else

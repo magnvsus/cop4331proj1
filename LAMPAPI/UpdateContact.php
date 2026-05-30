@@ -18,6 +18,7 @@
     if(empty(trim($firstName))|| empty(trim($lastName))||
         empty(trim($phone))|| empty(trim($email)))
     {
+        http_response_code(400);
         returnWithError("All fields must be filled.");		
 		exit;
     }
@@ -26,6 +27,7 @@
     $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
     if ($conn->connect_Error) 
     {
+        http_response_code(500);
         returnWithError( $conn->connect_Error );
     } 
     else
@@ -49,6 +51,7 @@
         $conn->close();
         
         // Return a clean success message
+        http_response_code(201);
         returnWithError("");
     }
 

@@ -19,6 +19,7 @@
     if(empty(trim($firstName))|| empty(trim($lastName))||
         empty(trim($login))|| empty(trim($password)))
     {
+        http_response_code(400);
         returnWithError("All fields must be filled.");		
 		exit;
     }
@@ -27,6 +28,7 @@
 
     if ($conn->connect_Error)
     {
+        http_response_code(500);
         returnWithError($conn->connect_Error);
     }
     else
@@ -42,6 +44,7 @@
         {
             $existCheck->close();
             $conn->close();
+            http_response_code(400);
             returnWithError("Username already exists");
         }
         else
@@ -56,6 +59,7 @@
 			// 4. Check for database changes.
 			if($stmt->affected_rows === 0)
 			{
+                http_response_code(400);
 				returnWithError("Registration failed");
 				$stmt->close();
             	$conn->close();
@@ -65,6 +69,7 @@
             $stmt->close();
             $conn->close();
 
+            http_response_code(201);
             returnWithInfo();
         }
     }

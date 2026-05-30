@@ -36,15 +36,54 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/LoginResponse'
-        404:
-          description: URL Not Found
+        400:
+          description: Bad Request
           schema:
-            $ref: '#/definitions/NotFoundErrorResponse'
+            $ref: '#/definitions/BadRequestResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/UnauthorizedResponse'   
         500:
           description: Server Error
           schema:
             $ref: '#/definitions/ServerErrorResponse'
   
+  /Regsiter.php:
+    post:
+      tags:
+      - Users
+      summary: Registers users 
+      description: Registers users in database
+      operationId: Register
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: Register
+        description: Login
+        schema:
+          $ref: '#/definitions/Register'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/GenericResponse'
+        201:
+          description: Created
+          schema:
+            $ref: '#/definitions/GenericResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/BadRequestResponse'
+        500:
+          description: Server Error
+          schema:
+            $ref: '#/definitions/ServerErrorResponse'
+
   /AddContact.php:
     post:
       tags:
@@ -63,14 +102,14 @@ paths:
         schema:
           $ref: '#/definitions/Add'
       responses:
-        200:
-          description: OK
+        201:
+          description: Created
           schema:
-            $ref: '#/definitions/GenericResponse'
-        404:
-          description: URL Not Found
+            $ref: '#/definitions/GenericResponse'    
+        400:
+          descritpion: Bad Request
           schema:
-            $ref: '#/definitions/NotFoundErrorResponse'
+            $ref: '#/definitions/RegistrationErrorResponse'
         500:
           description: Server Error
           schema:
@@ -98,10 +137,14 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/SearchResponse'
-        404:
-          description: URL Not Found
+        400:
+          description: Bad Request
           schema:
-            $ref: '#/definitions/NotFoundErrorResponse'
+            $ref: '#/definitions/BadRequestResponse'
+        404:
+          description: Contact Not Found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
         500:
           description: Server Error
           schema:
@@ -123,14 +166,14 @@ paths:
         schema:
           $ref: '#/definitions/Delete'
       responses:
-        200:
-          description: OK
+        204:
+          description: No Content
           schema:
             $ref: '#/definitions/GenericResponse'
-        404:
-          description: URL Not Found
+        400:
+          description: Bad Request
           schema:
-            $ref: '#/definitions/NotFoundErrorResponse'
+            $ref: '#/definitions/BadRequestResponse'
         500:
           description: Server Error
           schema:
@@ -152,14 +195,14 @@ paths:
         schema:
           $ref: '#/definitions/Update'
       responses:
-        200:
-          description: OK
+        201:
+          description: Created
           schema:
             $ref: '#/definitions/GenericResponse'
-        404:
-          description: URL Not Found
+        400:
+          description: Bad Request
           schema:
-            $ref: '#/definitions/NotFoundErrorResponse'
+            $ref: '#/definitions/BadRequestResponse'
         500:
           description: Server Error
           schema:
@@ -192,6 +235,27 @@ definitions:
     - Login
     - Password
     properties:
+      Login:
+        type: string
+        example: UserName123
+      Password:
+        type: string
+        example: Password123
+
+  Login:
+    type: object
+    required:
+    - FirstName
+    - LastName
+    - Login
+    - Password
+    properties:
+      FirstName:
+        type: string
+        example: John
+      LastName:
+        type: string
+        example: Doe
       Login:
         type: string
         example: UserName123
@@ -299,6 +363,13 @@ definitions:
         type: string
         example: ""
 
+  RegistrationErrorResponse:
+    type: object
+    properties:
+      Error:
+        type: string
+        example: "Registration failed"
+
   SearchResponse:
     type: object
     properties:
@@ -317,19 +388,33 @@ definitions:
         type: string
         example: ""
 
+  UnauthorizedResponse:
+    type: object
+    properties:
+      Error:
+        type: string
+        example: "Invalid Credentials"
+
+  BadRequestResponse:
+    type: object
+    properties:
+      Error:
+        type: string
+        example: "All fields must be filled."
+
   ServerErrorResponse:
     type: object
     properties:
       Error:
         type: string
-        example: "Internal server error"
+        example: "Internal server error."
 
-  NotFoundErrorResponse:
+  NotFoundResponse:
     type: object
     properties:
       Error:
         type: string
-        example: "URL Not Found"
+        example: "No Records Found"
 
 host: aecm.site
 basePATH: /LAMPAPI

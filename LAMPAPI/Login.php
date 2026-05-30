@@ -7,6 +7,7 @@
 	$password = $inData["Password"];
 
 	if(empty(trim($login)) || empty(trim($password))){
+		http_response_code(400);
         returnWithError("All fields must be filled.");
         exit;
     }
@@ -14,6 +15,7 @@
 	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331"); 	
 	if( $conn->connect_error )
 	{
+		http_response_code(500);
 		returnWithError( $conn->connect_error );
 	}
 	else
@@ -29,9 +31,11 @@
 		}
 		else
 		{
+			http_response_code(401);
 			returnWithError("Invalid Credentials");
 		}
 
+		
 		$stmt->close();
 		$conn->close();
 	}

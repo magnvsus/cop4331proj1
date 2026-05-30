@@ -11,6 +11,7 @@
     // Prevent empty input
     if(empty(trim($userID))|| empty(trim($contactID)))
     {
+        http_response_code(400);
         returnWithError("All fields must me filled.");
         exit;
     }
@@ -19,6 +20,7 @@
     else if (!is_numeric($userID) || !is_numeric($contactID) ||
             $userID <= 0 || $contactID <= 0)
     {
+        http_response_code(400);
         returnWithError("All fields must me filled.");
         exit;
     }
@@ -27,6 +29,7 @@
     $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
     if ($conn->connect_Error) 
     {
+        http_response_code(500);
         returnWithError( $conn->connect_Error );
     } 
     else
@@ -45,6 +48,7 @@
         $conn->close();
         
         // Return a clean success message
+        http_response_code(204);
         returnWithError("");
     }
 
