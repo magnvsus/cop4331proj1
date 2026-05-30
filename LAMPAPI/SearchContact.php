@@ -5,8 +5,17 @@
 
     $inData = getRequestInfo();
     
+    $search = $inData["Search"];
+    $userID = $inData["UserID"]
+
     $searchResults = "";
     $searchCount = 0;
+
+    // 1. Check for empty search
+    if(empty(trim($Search))){
+        returnWithError("Search term cannot be empty.");
+        exit;
+    }
 
     $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
     if ($conn->connect_Error) 
@@ -15,7 +24,7 @@
     } 
     else
     {
-        // 1. Select ALL columns (*) so the frontend gets the full contact info
+        // 2. Select ALL columns (*) so the frontend gets the full contact info
         $sql = "SELECT * FROM Contacts WHERE (FirstName LIKE ? 
                             OR LastName LIKE ? 
                             OR Phone LIKE ? 
@@ -24,20 +33,14 @@
                             
         $stmt = $conn->prepare($sql);
         
-        // 2. Check for empty search
-        // If search query is empty, %% will match everything.
-        // Refuse empty searches
-        if(empty(trim($inData["Search"]))){
-            returnWithError("Search term cannot be empty");
-            exit;
-        }
+        
 
         // 3. Set up the wildcards
-        $searchQuery = "%" . $inData["Search"] . "%";    
+        $searchQuery = "%" . $Search . "%";    
                
         
         // 4. Pull the userID
-        $userID = $inData["UserID"];
+        $userID = $UserID;
         
         // 5. Proper MySQLi binding (4 Strings, 1 Integer = "ssssi")
         $stmt->bind_param("ssssi", $searchQuery, $searchQuery, $searchQuery, $searchQuery, $userID);

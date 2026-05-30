@@ -13,7 +13,15 @@
     $phone = $inData["Phone"];
     $email = $inData["Email"];
 
-    // 3. Connect to Michael's database
+    // 3. Prevent empty inputs
+    if(empty(trim($firstName))|| empty(trim($lastName))||
+        empty(trim($phone))|| empty(trim($email)))
+    {
+        returnWithError("All fields must be filled.");
+        exit;
+    }
+
+    // 4. Connect to Michael's database
     $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 
     if ($conn->connect_Error) 
@@ -22,7 +30,7 @@
     } 
     else 
     {
-        // 4. Insert into the Contacts table
+        // 5. Insert into the Contacts table
         $stmt = $conn->prepare("INSERT into Contacts (UserID, FirstName, LastName, Phone, Email) VALUES(?, ?, ?, ?, ?)");
         $stmt->bind_param("issss", $userID, $firstName, $lastName, $phone, $email);
         $stmt->execute();

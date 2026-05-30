@@ -5,8 +5,24 @@
 
     $inData = getRequestInfo();
 
-    $contactID = $inData["contactID"];
+    $contactID = $inData["ContactID"];
     $userID = $inData["UserID"];
+
+    // Prevent empty input
+    if(empty(trim($userID))|| empty(trim($contactID)))
+    {
+        returnWithError("All fields must me filled.");
+        exit;
+    }
+
+    // Prevent non-numeric or negative input.
+    else if (!is_numeric($userID) || !is_numeric($contactID) ||
+            $userID <= 0 || $contactID <= 0)
+    {
+        returnWithError("All fields must me filled.");
+        exit;
+    }
+
 
     $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
     if ($conn->connect_Error) 

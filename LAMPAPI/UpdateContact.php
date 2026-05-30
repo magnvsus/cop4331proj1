@@ -14,6 +14,14 @@
     $userID = $inData["UserID"];
     $contactID = $inData["ContactID"];
 
+    // Check for empty inputs
+    if(empty(trim($firstName))|| empty(trim($lastName))||
+        empty(trim($phone))|| empty(trim($email)))
+    {
+        returnWithError("All fields must be filled.");		
+		exit;
+    }
+
     // Open the database vault
     $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
     if ($conn->connect_Error) 

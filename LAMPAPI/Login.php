@@ -3,8 +3,13 @@
 	$inData = getRequestInfo();
 	
 	$userID = 0;
-	$firstName = "";
-	$lastName = "";
+	$login = $inData["Login"];
+	$password = $inData["Password"];
+
+	if(empty(trim($login)) || empty(trim($password))){
+        returnWithError("All fields must be filled.");
+        exit;
+    }
 
 	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331"); 	
 	if( $conn->connect_error )
@@ -13,14 +18,14 @@
 	}
 	else
 	{
-		$stmt = $conn->prepare("SELECT UserID, FirstName, LastName FROM Users WHERE Login=? AND Password =?");
-		$stmt->bind_param("ss", $inData["Login"], $inData["Password"]);
+		$stmt = $conn->prepare("SELECT ID, FirstName, LastName FROM Users WHERE Login=? AND Password =?");
+		$stmt->bind_param("ss", $login, $password);
 		$stmt->execute();
 		$result = $stmt->get_result();
 
 		if( $row = $result->fetch_assoc()  )
 		{
-			returnWithInfo( $row['FirstName'], $row['LastName'], $row['UserID'] );
+			returnWithInfo( $row['FirstName'], $row['LastName'], $row['ID'] );
 		}
 		else
 		{
@@ -44,13 +49,13 @@
 	
 	function returnWithError( $err )
 	{
-		$retValue = '{"UserID":0,"FirstName":"","LastName":"","Error":"' . $err . '"}';
+		$retValue = '{"ID":0,"FirstName":"","LastName":"","Error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
 	
 	function returnWithInfo( $firstName, $lastName, $userID )
 	{
-		$retValue = '{"UserID":' . $userID . ',"FirstName":"' . $firstName . '","LastName":"' . $lastName . '","Error":""}';
+		$retValue = '{"ID":' . $userID . ',"FirstName":"' . $firstName . '","LastName":"' . $lastName . '","Error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
 	
